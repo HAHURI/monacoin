@@ -1,5 +1,4 @@
-Building Monacoin
+モナコインの構築
 ================
 
-See doc/build-*.md for instructions on building the various
-elements of the Monacoin Core reference implementation of Monacoin.
+MonacoinのMonacoin Coreリファレンス実装のさまざまな要素を構築する手順については、`doc/build-*.md`を参照してください。

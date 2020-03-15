@@ -1,15 +1,15 @@
-OpenBSD build guide
+OpenBSDビルドガイド
 ======================
 (updated for OpenBSD 6.3)
 
-This guide describes how to build monacoind and command-line utilities on OpenBSD.
+このガイドでは、OpenBSDでmonacoindおよびコマンドラインユーティリティを構築する方法について説明します。
 
-OpenBSD is most commonly used as a server OS, so this guide does not contain instructions for building the GUI.
+OpenBSDはサーバーOSとして最も一般的に使用されているため、このガイドにはGUIの構築手順は含まれていません。
 
-Preparation
+準備
 -------------
 
-Run the following as root to install the base dependencies for building:
+rootとして次を実行して、ビルドの基本依存関係をインストールします。
 
 ```bash
 pkg_add git gmake libevent libtool boost
@@ -20,39 +20,32 @@ pkg_add python # (select highest version, e.g. 3.6)
 git clone https://github.com/monacoinproject/monacoin.git
 ```
 
-See [dependencies.md](dependencies.md) for a complete overview.
+完全な概要については、[dependencies.md](dependencies.md)を参照してください。
 
-**Important**: From OpenBSD 6.2 onwards a C++11-supporting clang compiler is
-part of the base image, and while building it is necessary to make sure that this
-compiler is used and not ancient g++ 4.2.1. This is done by appending
-`CC=cc CXX=c++` to configuration commands. Mixing different compilers
-within the same executable will result in linker errors.
 
-### Building BerkeleyDB
+**重要**：OpenBSD 6.2以降では、C++11をサポートするclangコンパイラーがベースイメージの一部であり、ビルド中に、このコンパイラーが古代のg++ 4.2.1ではなく使用されていることを確認する必要があります。 これは、設定コマンドに`CC=cc CXX=c++` を追加することで実行されます。 同じ実行可能ファイル内で異なるコンパイラを混在させると、リンカーエラーが発生します。
 
-BerkeleyDB is only necessary for the wallet functionality. To skip this, pass
-`--disable-wallet` to `./configure` and skip to the next section.
+### BerkeleyDBの構築
 
-It is recommended to use Berkeley DB 4.8. You cannot use the BerkeleyDB library
-from ports, for the same reason as boost above (g++/libstd++ incompatibility).
-If you have to build it yourself, you can use [the installation script included
-in contrib/](/contrib/install_db4.sh) like so
+BerkeleyDBは、ウォレット機能にのみ必要です。
+これをスキップするには、 `--disable-wallet`を`./configure`に渡し、次のセクションにスキップします。
+
+Berkeley DB 4.8を使用することをお勧めします。上記のboostと同じ理由で(g++/libstd++ の非互換性)、ポートからBerkeleyDBライブラリを使用することはできません。自分でビルドする必要がある場合は、[contrib /に含まれるインストールスクリプト](/contrib/install_db4.sh)を使用できます。
 
 ```shell
 ./contrib/install_db4.sh `pwd` CC=cc CXX=c++
 ```
-
-from the root of the repository. Then set `BDB_PREFIX` for the next section:
+リポジトリのルートから。 次に、次のセクションの `BDB_PREFIX`を設定します。
 
 ```shell
 export BDB_PREFIX="$PWD/db4"
 ```
 
-### Building Monacoin Core
+### モナコインコアの構築
 
-**Important**: use `gmake`, not `make`. The non-GNU `make` will exit with a horrible error.
+**重要**： `gmake`を使用します（GNU以外の` make`はエラーで終了します）。
 
-Preparation:
+準備
 ```bash
 
 # Replace this with the autoconf version that you installed. Include only
@@ -65,42 +58,39 @@ export AUTOMAKE_VERSION=1.15
 
 ./autogen.sh
 ```
-Make sure `BDB_PREFIX` is set to the appropriate path from the above steps.
+`BDB_PREFIX`が上記のステップから適切なパスに設定されていることを確認してください。
 
-To configure with wallet:
+ウォレットで構成するには：
 ```bash
 ./configure --with-gui=no CC=cc CXX=c++ \
     BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
 ```
 
-To configure without wallet:
+ウォレットなしで構成するには：
 ```bash
 ./configure --disable-wallet --with-gui=no CC=cc CXX=c++
 ```
 
-Build and run the tests:
+テストをビルドして実行します。
 ```bash
 gmake # use -jX here for parallelism
 gmake check
 ```
 
-Resource limits
+リソース制限
 -------------------
 
-If the build runs into out-of-memory errors, the instructions in this section
-might help.
+ビルドでメモリ不足エラーが発生した場合は、このセクションの手順が役立つ場合があります。
 
-The standard ulimit restrictions in OpenBSD are very strict:
+OpenBSDの標準のulimit制限は非常に厳格です
 
     data(kbytes)         1572864
 
-This, unfortunately, in some cases not enough to compile some `.cpp` files in the project,
-(see issue [#6658](https://github.com/bitcoin/bitcoin/issues/6658)).
-If your user is in the `staff` group the limit can be raised with:
+残念ながら、これはプロジェクトの一部の `.cpp`ファイルをコンパイルするには不十分な場合があります(see issue [#6658](https://github.com/bitcoin/bitcoin/issues/6658)).
+
+ユーザーが `staff`グループに属している場合、制限は次のように上げることができます：
 
     ulimit -d 3000000
 
-The change will only affect the current shell and processes spawned by it. To
-make the change system-wide, change `datasize-cur` and `datasize-max` in
-`/etc/login.conf`, and reboot.
-
+変更は、現在のシェルとそれによって生成されたプロセスにのみ影響します。
+システム全体に変更を加えるには、`/etc/login.conf`の`datasize-cur`と`datasize-max`を変更して再起動します。

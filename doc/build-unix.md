@@ -1,20 +1,19 @@
-UNIX BUILD NOTES
+UNIXビルドノート
 ====================
-Some notes on how to build Monacoin Core in Unix.
 
-(For BSD specific instructions, see `build-*bsd.md` in this directory.)
+UnixでMonacoin Coreをビルドする方法に関する注意事項。
+（BSD固有の手順については、このディレクトリの `build-*bsd.md`を参照してください。）
 
-Note
+ノート
 ---------------------
-Always use absolute paths to configure and compile Monacoin Core and the dependencies,
-for example, when specifying the path of the dependency:
+Monacoin Coreと依存関係を構成およびコンパイルするには、たとえば、依存関係のパスを指定する場合など、常に絶対パスを使用します。
 
+```bash
 	../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
+```
+ここで、BDB_PREFIXは絶対パスである必要があります-絶対パスの使用を保証する`$(pwd)`を使用して定義されます。
 
-Here BDB_PREFIX must be an absolute path - it is defined using $(pwd) which ensures
-the usage of the absolute path.
-
-To Build
+構築するには
 ---------------------
 
 ```bash
@@ -24,12 +23,12 @@ make
 make install # optional
 ```
 
-This will build monacoin-qt as well if the dependencies are met.
+依存関係が満たされている場合、これによりmonacoin-qtもビルドされます。
 
-Dependencies
+依存関係
 ---------------------
 
-These dependencies are required:
+これらの依存関係が必要です：
 
  Library     | Purpose          | Description
  ------------|------------------|----------------------
@@ -37,7 +36,7 @@ These dependencies are required:
  libboost    | Utility          | Library for threading, data structures, etc
  libevent    | Networking       | OS independent asynchronous networking
 
-Optional dependencies:
+オプションの依存関係：
 
  Library     | Purpose          | Description
  ------------|------------------|----------------------
@@ -49,70 +48,76 @@ Optional dependencies:
  univalue    | Utility          | JSON parsing and encoding (bundled version will be used unless --with-system-univalue passed to configure)
  libzmq3     | ZMQ notification | Optional, allows generating ZMQ notifications (requires ZMQ version >= 4.x)
 
-For the versions used, see [dependencies.md](dependencies.md)
+使用されるバージョンについては、[dependencies.md](dependencies.md)を参照してください
 
-Memory Requirements
+メモリ要件
 --------------------
 
-C++ compilers are memory-hungry. It is recommended to have at least 1.5 GB of
-memory available when compiling Monacoin Core. On systems with less, gcc can be
-tuned to conserve memory with additional CXXFLAGS:
+C ++コンパイラはメモリを大量に消費します。 Monacoin Coreのコンパイル時には、少なくとも1.5 GBのメモリを使用可能にすることをお勧めします。 より少ないシステムでは、追加のCXXFLAGSでメモリを節約するためにgccを調整できます。
 
+```bash
+./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"
+```
 
-    ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"
-
-
-## Linux Distribution Specific Instructions
+## Linuxディストリビューション固有の手順
 
 ### Ubuntu & Debian
 
-#### Dependency Build Instructions
+#### 依存関係のビルド手順
 
-Build requirements:
+ビルド要件：
 
+```bash
     sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+```
 
-BerkeleyDB is required for the wallet.
+ウォレットにはBerkeleyDBが必要です。
 
-**For Ubuntu only:** db4.8 packages are available [here](https://launchpad.net/~bitcoin/+archive/bitcoin).
-You can add the repository and install using the following commands:
 
+**Ubuntuのみ：** db4.8パッケージは[こちら](https://launchpad.net/~bitcoin/+archive/bitcoin)から入手できます。
+次のコマンドを使用して、リポジトリを追加してインストールできます。
+
+```bash
     sudo apt-get install software-properties-common
     sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo apt-get update
     sudo apt-get install libdb4.8-dev libdb4.8++-dev
+```
 
-Ubuntu and Debian have their own libdb-dev and libdb++-dev packages, but these will install
-BerkeleyDB 5.1 or later, which break binary wallet compatibility with the distributed executables which
-are based on BerkeleyDB 4.8. If you do not care about wallet compatibility,
-pass `--with-incompatible-bdb` to configure.
+UbuntuおよびDebianには独自のlibdb-devおよびlibdb ++-devパッケージがありますが、これらはBerkeleyDB 5.1以降をインストールします。これにより、BerkeleyDB 4.8に基づく分散実行可能ファイルとのバイナリウォレットの互換性が失われます。 ウォレットの互換性を気にしない場合は、configureに `--with-incompatible-bdb`を渡します。
 
-See the section "Disable-wallet mode" to build Monacoin Core without wallet.
+ウォレットなしでモナコインコアを構築するには、「ウォレットモードを無効にする」セクションを参照してください。
 
-Optional (see --with-miniupnpc and --enable-upnp-default):
+オプション（--with-miniupnpcおよび--enable-upnp-defaultを参照）：
 
+```bash
     sudo apt-get install libminiupnpc-dev
+```
 
-ZMQ dependencies (provides ZMQ API 4.x):
+ZMQ依存関係（ZMQ API 4.xを提供）：
 
+```bash
     sudo apt-get install libzmq3-dev
+```
 
-#### Dependencies for the GUI
+#### GUIの依存関係
 
-If you want to build monacoin-qt, make sure that the required packages for Qt development
-are installed. Qt 5 is necessary to build the GUI.
-To build without GUI pass `--without-gui`.
+monacoin-qtをビルドする場合は、Qt開発に必要なパッケージがインストールされていることを確認してください。 GUIを構築するにはQt 5が必要です。
+GUIなしでビルドするには、 `--without-gui`を渡します。
 
-To build with Qt 5 you need the following:
+Qt 5でビルドするには、次のものが必要です。
 
+```bash
     sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
+```
 
-libqrencode (optional) can be installed with:
+libqrencode（オプション）は次のものでインストールできます。
 
+```bash
     sudo apt-get install libqrencode-dev
+```
 
-Once these are installed, they will be found by configure and a monacoin-qt executable will be
-built by default.
+これらがインストールされると、configureによって検出され、デフォルトでmonacoin-qt実行可能ファイルがビルドされます。
 
 
 ### Fedora

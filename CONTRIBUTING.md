@@ -1,50 +1,40 @@
-Contributing to Monacoin Core
+モナコインコアへの貢献
 ============================
 
-The Monacoin Core project operates an open contributor model where anyone is
-welcome to contribute towards development in the form of peer review, testing
-and patches. This document explains the practical process and guidelines for
-contributing.
+モナコインコアプロジェクトは、誰でもピアレビュー、テスト、パッチの形で開発に貢献できるオープンな貢献者モデルを運営しています。 
+このドキュメントでは、貢献の実際的なプロセスとガイドラインについて説明します。
 
-Firstly in terms of structure, there is no particular concept of "Core
-developers" in the sense of privileged people. Open source often naturally
-revolves around meritocracy where longer term contributors gain more trust from
-the developer community. However, some hierarchy is necessary for practical
-purposes. As such there are repository "maintainers" who are responsible for
-merging pull requests as well as a "lead maintainer" who is responsible for the
-release cycle, overall merging, moderation and appointment of maintainers.
+第一に、構造に関しては、特権的な人という意味での「コア開発者」という特別な概念はありません。
+オープンソースは、長期的な貢献者が開発者コミュニティからより多くの信頼を得る実力主義を中心に自然に展開することがよくあります。
+ただし、実用的な目的のためには何らかの階層が必要です。
+そのため、プルリクエストのマージを担当するリポジトリ「メンテナー」と、リリースサイクル、全体的なマージ、モデレーター、およびメンテナーの任命を担当する「リードメンテナー」がいます。
 
-Communication Channels
+
+コミュニケーションチャンネル
 ----------------------
 
-Most communication about Monacoin Core development happens on IRC, in the
-#monacoin-dev channel on Freenode. The easiest way to participate on IRC is
-with the web client, [webchat.freenode.net](https://webchat.freenode.net/).
+Monacoin Core開発に関するほとんどのコミュニケーションは、Freenodeの＃monacoin-devチャネルでIRCで行われます。
+IRCに参加する最も簡単な方法は、Webクライアント[webchat.freenode.net](https://webchat.freenode.net/)を使用することです。
 
-Discussion about code base improvements happens in GitHub issues and on pull
-requests.
+コードベースの改善に関する議論は、GitHubの問題とプルリクエストで行われます。
 
-The developer
-[mailing list](https://groups.google.com/forum/#!forum/monacoin-dev)
-should be used to discuss complicated or controversial changes before working on
-a patch set.
+開発者
+[mailing list](https://groups.google.com/forum/#!forum/monacoin-dev)を使用して、パッチセットを作成する前に、複雑な、または物議を醸す変更について議論する必要があります。
 
 
-Contributor Workflow
+投稿者のワークフロー
 --------------------
 
-The codebase is maintained using the "contributor workflow" where everyone
-without exception contributes patch proposals using "pull requests". This
-facilitates social contribution, easy testing and peer review.
+コードベースは「貢献者ワークフロー」を使用して維持され、例外なく全員が「プルリクエスト」を使用してパッチ提案を提供します。 
+これにより、社会貢献、簡単なテスト、ピアレビューが促進されます。
 
-To contribute a patch, the workflow is as follows:
+パッチを提供するためのワークフローは次のとおりです。
 
-  1. Fork repository
-  1. Create topic branch
-  1. Commit patches
-
-The project coding conventions in the [developer notes](doc/developer-notes.md)
-must be adhered to.
+  1. フォークリポジトリ
+  2. トピックブランチを作成する
+  3. パッチをコミットする
+  
+[開発者向けメモ](doc/developer-notes.md)のプロジェクトコーディング規約に従う必要があります。
 
 In general [commits should be atomic](https://en.wikipedia.org/wiki/Atomic_commit#Atomic_commit_convention)
 and diffs should be easy to read. For this reason do not mix any formatting

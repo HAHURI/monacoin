@@ -1,79 +1,67 @@
-Monacoin Core integration/staging tree
+Monacoin Core統合ステージングツリー
 =====================================
 
 [![Build Status](https://travis-ci.org/monacoinproject/monacoin.svg?branch=master)](https://travis-ci.org/monacoinproject/monacoin)
 
 https://monacoin.org
 
-What is Monacoin?
+モナコインって何？
 ----------------
 
-Monacoin is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. Monacoin uses peer-to-peer technology to operate
-with no central authority: managing transactions and issuing money are carried
-out collectively by the network. Monacoin Core is the name of open source
-software which enables the use of this currency.
 
-For more information, as well as an immediately useable, binary version of
-the Monacoin Core software, see [https://monacoin.org](https://monacoin.org).
 
-License
+モナコインは実験的なデジタル通貨であり、世界中の誰でもどこでも、即時の支払いを可能にします
+モナコインは、ピアツーピア技術を使用して動作します。そのために中央の権限はありません。トランザクションの管理とお金の発行は、ネットワークによってまとめて実行されます。
+モナコインコアは、この通貨の使用を可能にするオープンソースソフトウェアの名前です。
+
+詳細、およびすぐに使用できるMonacoin Coreソフトウェアのバイナリバージョンについては、 [https://monacoin.org](https://monacoin.org) を参照してください。
+
+ライセンス
 -------
 
-Monacoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
+Monacoin Coreは、MITライセンスの条件の下でリリースされます。 詳細については、[COPYING](COPYING) を参照してください。
+更に詳しい情報はこちらのリンクからご覧いただけます https://opensource.org/licenses/MIT 。
 
-Development Process
+開発について
 -------------------
 
-The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/monacoinproject/monacoin/tags) are created
-regularly to indicate new official, stable release versions of Monacoin Core.
+`master`ブランチは定期的に構築およびテストされますが、完全に安定しているとは限りません。 [タグ](https://github.com/monacoinproject/monacoin/tags) は、Monacoin Coreの新しい公式の安定したリリースバージョンを示すために定期的に作成されます。
 
-The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
+貢献する方法はこちらを参考に[CONTRIBUTING.md](CONTRIBUTING.md).
 
-The developer [mailing list](https://groups.google.com/forum/#!forum/monacoin-dev)
-should be used to discuss complicated or controversial changes before working
-on a patch set.
+パッチセットを作成する前に、開発者の [メーリングリスト](https://groups.google.com/forum/#!forum/monacoin-dev) を使用して、複雑な、または物議を醸す変更について話し合う必要があります。
 
-Developer IRC can be found on Freenode at #monacoin-dev.
+開発者IRCは、Freenodeの＃monacoin-devにあります。
 
-Testing
+テストについて
 -------
 
-Testing and code review is the bottleneck for development; we get more pull
-requests than we can review and test on short notice. Please be patient and help out by testing
-other people's pull requests, and remember this is a security-critical project where any mistake might cost people
-lots of money.
+テストとコードレビューは開発のボトルネックとなりえます。すぐに確認してテスト可能にならないほどの多くのプルリクエストを受け取ることもありますので、しばらくお待ちください。
+また、他の人のプルリクエストを是非テストしてください。
+これはセキュリティの重要なプロジェクトであり、ミスがあると多くのお金がかかる可能性があります。
 
-### Automated Testing
+### 自動テスト
 
-Developers are strongly encouraged to write [unit tests](src/test/README.md) for new code, and to
-submit new unit tests for old code. Unit tests can be compiled and run
-(assuming they weren't disabled in configure) with: `make check`. Further details on running
-and extending unit tests can be found in [/src/test/README.md](/src/test/README.md).
+開発者は、新しいコードに対して[ユニットテスト](src/test/README.md) を記述し、古いコードに対して新しいユニットテストを送信することを強くお勧めします。
+ユニットテストは、「make check」を使用してコンパイルおよび実行できます（configureで無効にされていないと仮定します）。
+単体テストの実行と拡張の詳細については、[/src/test/README.md](/src/test/README.md)を参照してください。
 
-There are also [regression and integration tests](/test), written
-in Python, that are run automatically on the build server.
-These tests can be run (if the [test dependencies](/test) are installed) with: `test/functional/test_runner.py`
 
-The Travis CI system makes sure that every pull request is built for Windows, Linux, and macOS, and that unit/sanity tests are run automatically.
+Pythonで記述された[回帰統合テスト](/test)もあり、ビルドサーバーで自動的に実行されます。
+これらのテストは次のコマンドで実行できます（[テスト依存関係](/test)がインストールされている場合）： `test/functional/test_runner.py`
 
-### Manual Quality Assurance (QA) Testing
+Travis CIシステムは、すべてのプルリクエストがWindows、Linux、およびmacOS向けに構築され、ユニット/サニティテストが自動的に実行されるようにします。
 
-Changes should be tested by somebody other than the developer who wrote the
-code. This is especially important for large or high-risk changes. It is useful
-to add a test plan to the pull request description if testing the changes is
-not straightforward.
+### 手動品質保証（QA）テスト
 
-Translations
+変更は、コードを作成した開発者以外の誰かがテストする必要があります。 これは、大規模またはリスクの高い変更の場合に特に重要です。 変更のテストが簡単でない場合は、プルリクエストの説明にテスト計画を追加すると便利です。
+
+翻訳
 ------------
 
-We only accept translation fixes that are submitted through [Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
-Translations are converted to Monacoin periodically.
+[Bitcoin CoreのTransifexページ](https://www.transifex.com/projects/p/bitcoin/)から提出された翻訳修正のみを受け付けます。翻訳は定期的にモナコインに変換されます。
 
-Translations are periodically pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
+翻訳は定期的にTransifexから取得され、gitリポジトリにマージされます。この仕組みの詳細については、[翻訳プロセス](doc/translation_process.md)をご覧ください。
 
-**Important**: We do not accept translation changes as GitHub pull requests because the next
-pull from Transifex would automatically overwrite them again.
+**注意**: 
+Transifexからの次のプルはそれらを再び自動的に上書きするため、GitHubプルリクエストとして翻訳の変更を受け入れません。

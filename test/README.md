@@ -1,187 +1,163 @@
-This directory contains integration tests that test monacoind and its
-utilities in their entirety. It does not contain unit tests, which
-can be found in [/src/test](/src/test), [/src/wallet/test](/src/wallet/test),
-etc.
+このディレクトリには、monacoindとそのユーティリティ全体をテストする統合テストが含まれています。
+ただし、[/src/test](/src/test), [/src/wallet/test](/src/wallet/test)などにある単体テストは含まれていません。
 
-There are currently two sets of tests in this directory:
+現在、このディレクトリには2セットのテストがあります。
 
-- [functional](/test/functional) which test the functionality of
-monacoind and monacoin-qt by interacting with them through the RPC and P2P
-interfaces.
-- [util](/test/util) which tests the monacoin utilities, currently only
-monacoin-tx.
+- [機能](/test/functional)RPCおよびP2Pインターフェイスを介して対話することにより、monacoindおよびmonacoin-qtの機能をテストします。
+- [util](/test/util) モナコインユーティリティをテストします。現在はモナコイン-txのみです。
 
-The util tests are run as part of `make check` target. The functional
-tests are run by the travis continuous build process whenever a pull
-request is opened. Both sets of tests can also be run locally.
 
-# Running tests locally
+utilテストは、`make check`ターゲットの一部として実行されます。
+機能テストは、プルリクエストが開かれるたびにtravis連続ビルドプロセスによって実行されます。 両方のテストセットをローカルで実行することもできます。
 
-Build for your system first. Be sure to enable wallet, utils and daemon when you configure. Tests will not run otherwise.
+# テストをローカルで実行する
 
-### Functional tests
+最初にシステム用にビルドします。 構成するときは、必ずウォレット、ユーティリティ、デーモンを有効にしてください。 それ以外の場合、テストは実行されません。
 
-#### Dependencies
+### 機能テスト
 
-The ZMQ functional test requires a python ZMQ library. To install it:
+#### 依存関係
 
-- on Unix, run `sudo apt-get install python3-zmq`
-- on mac OS, run `pip3 install pyzmq`
+ZMQ機能テストには、Python ZMQライブラリが必要です。
+次をインストールしておいてください:
 
-#### Running the tests
+- Unixの場合： `sudo apt-get install python3-zmq`を実行します
+- macOSの場合：, `pip3 install pyzmq`を実行します
 
-Individual tests can be run by directly calling the test script, eg:
+#### テストを実行する
+
+個々のテストは、テストスクリプトを直接呼び出すことで実行できます。
+例：
 
 ```
 test/functional/feature_rbf.py
 ```
 
-or can be run through the test_runner harness, eg:
+または、test_runnerハーネスを介して実行できます。
+例：
 
 ```
 test/functional/test_runner.py feature_rbf.py
 ```
 
-You can run any combination (incl. duplicates) of tests by calling:
+次を呼び出して、テストの任意の組み合わせ（重複を含む）を実行できます。
 
 ```
 test/functional/test_runner.py <testname1> <testname2> <testname3> ...
 ```
 
-Run the regression test suite with:
+以下を使用して回帰テストスイートを実行します。
 
 ```
 test/functional/test_runner.py
 ```
 
-Run all possible tests with
+可能なすべてのテストを実行します
 
 ```
 test/functional/test_runner.py --extended
 ```
 
-By default, up to 4 tests will be run in parallel by test_runner. To specify
-how many jobs to run, append `--jobs=n`
+デフォルトでは、test_runnerにより最大4つのテストが並行して実行されます。 
 
-The individual tests and the test_runner harness have many command-line
-options. Run `test_runner.py -h` to see them all.
+以下指定してください。
+実行するジョブの数：`--jobs=n`を追加します
 
-#### Troubleshooting and debugging test failures
+個々のテストとtest_runnerハーネスには、多くのコマンドラインオプションがあります。それらをすべて表示するには、`test_runner.py -h`を実行します。
 
-##### Resource contention
+#### テストエラーのトラブルシューティングとデバッグ
 
-The P2P and RPC ports used by the monacoind nodes-under-test are chosen to make
-conflicts with other processes unlikely. However, if there is another monacoind
-process running on the system (perhaps from a previous test which hasn't successfully
-killed all its monacoind nodes), then there may be a port conflict which will
-cause the test to fail. It is recommended that you run the tests on a system
-where no other monacoind processes are running.
+##### リソースの競合
 
-On linux, the test_framework will warn if there is another
-monacoind process running when the tests are started.
+テスト対象のモナコインドノードで使用されるP2PポートとRPCポートは、他のプロセスとの競合を起こさないように選択されます。
+ただし、システム上で別のmonacoindプロセスが実行されている場合（おそらく、以前のテストですべてのmonacoindノードを正常に終了していない場合）、ポートの競合が発生する可能性があります
+テストが失敗します。このような場合は、他のmonacoindプロセスが実行されていないシステムでテストを実行することをお勧めします。
 
-If there are zombie monacoind processes after test failure, you can kill them
-by running the following commands. **Note that these commands will kill all
-monacoind processes running on the system, so should not be used if any non-test
-monacoind processes are being run.**
+Linuxでは、テストの開始時に別のmonacoindプロセスが実行されている場合、test_frameworkが警告します。
+
+テストの失敗後にゾンビモナコインドプロセスがある場合、次のコマンドを実行してそれらを強制終了できます。
+**これらのコマンドは、システムで実行中のすべてのmonacoindプロセスを強制終了するため、テスト以外のmonacoindプロセスが実行されている場合は使用しないでください。**
 
 ```bash
 killall monacoind
 ```
 
-or
+もしくは
 
 ```bash
 pkill -9 monacoind
 ```
 
 
-##### Data directory cache
+##### データディレクトリキャッシュ
 
-A pre-mined blockchain with 200 blocks is generated the first time a
-functional test is run and is stored in test/cache. This speeds up
-test startup times since new blockchains don't need to be generated for
-each test. However, the cache may get into a bad state, in which case
-tests will fail. If this happens, remove the cache directory (and make
-sure monacoind processes are stopped as above):
+機能テストが最初に実行されたときに、200ブロックの事前にマイニングされたブロックチェーンが生成され、テスト/キャッシュに保存されます。これにより、テストごとに新しいブロックチェーンを生成する必要がないため、テストの起動時間が短縮されます。
+ただし、キャッシュが悪い状態になる可能性があり、その場合、テストは失敗します。 これが発生した場合は、キャッシュディレクトリを削除します（上記のようにmonacoindプロセスが停止していることを確認します）。
 
 ```bash
 rm -rf cache
 killall monacoind
 ```
 
-##### Test logging
+##### テストログ
 
-The tests contain logging at different levels (debug, info, warning, etc). By
-default:
+テストには、さまざまなレベル（デバッグ、情報、警告など）でのロギングが含まれます。
 
-- when run through the test_runner harness, *all* logs are written to
-  `test_framework.log` and no logs are output to the console.
-- when run directly, *all* logs are written to `test_framework.log` and INFO
-  level and above are output to the console.
-- when run on Travis, no logs are output to the console. However, if a test
-  fails, the `test_framework.log` and monacoind `debug.log`s will all be dumped
-  to the console to help troubleshooting.
+以下デフォルト：
+- test_runnerハーネスを介して実行すると、*すべて*ログが `test_framework.log`に書き込まれ、ログはコンソールに出力されません。
+- 直接実行すると、*すべての*ログが `test_framework.log`に書き込まれ、INFOレベル以上がコンソールに出力されます。
+- Travisで実行すると、ログはコンソールに出力されません。 ただし、テストが失敗すると、`test_framework.log`とmonacoindの `debug.log`がすべてトラブルシューティングのためにコンソールにダンプされます。
 
-To change the level of logs output to the console, use the `-l` command line
-argument.
+コンソールに出力されるログのレベルを変更するには、コマンドライン引数 `-l`を使用します。
 
-`test_framework.log` and monacoind `debug.log`s can be combined into a single
-aggregate log by running the `combine_logs.py` script. The output can be plain
-text, colorized text or html. For example:
+`combine_logs.py`スクリプトを実行することにより、` test_framework.log`とmonacoind `debug.log`sを1つの集約ログに結合できます。
+出力は、プレーンテキスト、色付きテキスト、またはhtmlです。 For 例：
 
 ```
 combine_logs.py -c <test data directory> | less -r
 ```
 
-will pipe the colorized logs from the test into less.
+色付きのログをテストからlessにパイプします。
 
-Use `--tracerpc` to trace out all the RPC calls and responses to the console. For
-some tests (eg any that use `submitblock` to submit a full block over RPC),
-this can result in a lot of screen output.
+コンソールへのすべてのRPC呼び出しと応答を追跡するには、 `--tracerpc`を使用します。 一部のテスト（たとえば、`submitblock`を使用してRPC経由で完全なブロックを送信するテスト）では、多くの画面出力が発生する可能性があります。
 
-By default, the test data directory will be deleted after a successful run.
-Use `--nocleanup` to leave the test data directory intact. The test data
-directory is never deleted after a failed test.
+デフォルトでは、テストデータディレクトリは、実行が成功すると削除されます。
+テストデータディレクトリをそのまま残すには、 `--nocleanup`を使用します。 テストに失敗すると、テストデータディレクトリは削除されません。
 
-##### Attaching a debugger
+##### デバッガーの接続
 
-A python debugger can be attached to tests at any point. Just add the line:
+Pythonデバッガーは、いつでもテストに参加できます。
+次の行を追加するだけです：
 
 ```py
 import pdb; pdb.set_trace()
 ```
 
-anywhere in the test. You will then be able to inspect variables, as well as
-call methods that interact with the monacoind nodes-under-test.
+テストのどこでも。その後、変数を検査したり、テスト対象のモナコノードと相互作用するメソッドを呼び出したりすることができます。
 
-If further introspection of the monacoind instances themselves becomes
-necessary, this can be accomplished by first setting a pdb breakpoint
-at an appropriate location, running the test to that point, then using
-`gdb` to attach to the process and debug.
+monacoindインスタンス自体のさらなるイントロスペクションが必要になった場合、まず適切な場所にpdbブレークポイントを設定し、そのポイントまでテストを実行し、次に `gdb`を使用してプロセスにアタッチしてデバッグすることでこれを実現できます。
 
-For instance, to attach to `self.node[1]` during a run:
+たとえば、実行中に `self.node[1]`にアタッチするには：
 
 ```bash
 2017-06-27 14:13:56.686000 TestFramework (INFO): Initializing test directory /tmp/user/1000/testo9vsdjo3
 ```
 
-use the directory path to get the pid from the pid file:
+ディレクトリパスを使用して、pidファイルからpidを取得します。
 
 ```bash
 cat /tmp/user/1000/testo9vsdjo3/node1/regtest/monacoind.pid
 gdb /home/example/monacoind <pid>
 ```
 
-Note: gdb attach step may require `sudo`
+注：gdb接続ステップには`sudo`が必要な場合があります
 
 ### Util tests
 
-Util tests can be run locally by running `test/util/bitcoin-util-test.py`.
-Use the `-v` option for verbose output.
+utilテストは、 `test/util/bitcoin-util-test.py`を実行することによりローカルで実行できます。
+詳細出力には、 `-v`オプションを使用します。
 
-# Writing functional tests
+# 機能テストを書く
 
-You are encouraged to write functional tests for new or existing features.
-Further information about the functional test framework and individual
-tests is found in [test/functional](/test/functional).
+新規または既存の機能の機能テストを作成することをお勧めします。
+機能テストフレームワークと個々のテストの詳細については、 [test/functional](/test/functional)をご覧ください。

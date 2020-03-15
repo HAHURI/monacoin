@@ -1,16 +1,15 @@
-Benchmarking
+ベンチマーク
 ============
 
-Monacoin Core has an internal benchmarking framework, with benchmarks
-for cryptographic algorithms (e.g. SHA1, SHA256, SHA512, RIPEMD160), as well as the rolling bloom filter.
+Monacoin Coreには、暗号アルゴリズム（SHA1、SHA256、SHA512、RIPEMD160など）のベンチマークとローリングブルームフィルターを備えた内部ベンチマークフレームワークがあります。
 
 Running
 ---------------------
-After compiling Monacoin-core, the benchmarks can be run with:
+Monacoin-coreをコンパイルした後、ベンチマークは次のもので実行できます。
 
     src/bench/bench_Monacoin
 
-The output will look similar to:
+出力は次のようになります。
 ```
 # Benchmark, evals, iterations, total, min, max, median
 Base58CheckEncode, 5, 320000, 120.772, 7.49351e-05, 7.59374e-05, 7.54759e-05
@@ -41,15 +40,15 @@ VerifyScriptBench, 5, 6300, 9.02493, 0.000285566, 0.000288433, 0.000286175
 
 Help
 ---------------------
-`-?` will print a list of options and exit:
+`-？`はオプションのリストを表示して終了します：
 
     src/bench/bench_Monacoin -?
 
-Notes
+ノート
 ---------------------
-More benchmarks are needed for, in no particular order:
-- Script Validation
-- CCoinDBView caching
-- Coins database
-- Memory pool
-- Wallet coin selection
+順不同で、より多くのベンチマークが必要です：
+- スクリプト検証
+- CCoinDBViewキャッシング
+- コインデータベース
+- メモリプール
+- ウォレットコインの選択

@@ -1,35 +1,35 @@
-FreeBSD build guide
+FreeBSDビルドガイド
 ======================
 (updated for FreeBSD 11.1)
 
-This guide describes how to build monacoind and command-line utilities on FreeBSD.
+このガイドでは、FreeBSDでmonacoindおよびコマンドラインユーティリティを構築する方法について説明します。
 
-This guide does not contain instructions for building the GUI.
+このガイドには、GUIの構築手順は含まれていません。
 
 ## Preparation
 
-You will need the following dependencies, which can be installed as root via pkg:
+pkgを介してrootとしてインストールできる次の依存関係が必要になります。
 
 ```
 pkg install autoconf automake boost-libs git gmake libevent libtool openssl pkgconf
 ```
 
-For the wallet (optional):
+ウォレットの場合（オプション）：
 ```
 ./contrib/install_db4.sh `pwd`
 export BDB_PREFIX="$PWD/db4"
 ```
 
-See [dependencies.md](dependencies.md) for a complete overview.
+完全な概要については、[dependencies.md](dependencies.md)を参照してください。
 
-Download the source code:
+ソースコードをダウンロードします。
 ```
 git clone https://github.com/monacoinproject/monacoin
 ```
 
-## Building Monacoin Core
+## モナコインコアの構築
 
-**Important**: Use `gmake` (the non-GNU `make` will exit with an error).
+**重要**： `gmake`を使用します（GNU以外の` make`はエラーで終了します）。
 
 ```
 ./autogen.sh
@@ -40,7 +40,6 @@ git clone https://github.com/monacoinproject/monacoin
 gmake
 ```
 
-*Note on debugging*: The version of `gdb` installed by default is [ancient and considered harmful](https://wiki.freebsd.org/GdbRetirement).
-It is not suitable for debugging a multi-threaded C++ program, not even for getting backtraces. Please install the package `gdb` and
-use the versioned gdb command (e.g. `gdb7111`).
-
+*デバッグに関する注意*：デフォルトでインストールされる `gdb`のバージョンは[古代かつ有害と見なされます](https://wiki.freebsd.org/GdbRetirement)です。
+バックスレッドを取得するためでなく、マルチスレッドC ++プログラムのデバッグには適していません。 
+パッケージ `gdb`をインストールし、バージョン管理されたgdbコマンド（例：` gdb7111`）を使用してください。

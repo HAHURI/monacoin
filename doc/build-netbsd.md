@@ -1,16 +1,15 @@
-NetBSD build guide
+NetBSD構築ガイド
 ======================
 (updated for NetBSD 7.0)
 
-This guide describes how to build monacoind and command-line utilities on NetBSD.
+このガイドは、NetBSD上でmonacoindおよびコマンドラインユーティリティを構築する方法を説明しています。
 
-This guide does not contain instructions for building the GUI.
+このガイドには、GUIの構築手順は含まれていません。
 
-Preparation
+準備
 -------------
 
-You will need the following modules, which can be installed via pkgsrc or pkgin:
-
+次のモジュールが必要になります。これらのモジュールは、pkgsrcまたはpkginを使用してインストールできます。
 ```
 autoconf
 automake
@@ -23,25 +22,25 @@ libtool
 python27
 ```
 
-Download the source code:
+ソースコードをダウンロードします。
 ```
 git clone https://github.com/monacoinproject/monacoin
 ```
 
-See [dependencies.md](dependencies.md) for a complete overview.
+完全な概要については、[dependencies.md](dependencies.md)を参照してください。
 
-### Building Monacoin Core
+### モナコインコアの構築
 
-**Important**: Use `gmake` (the non-GNU `make` will exit with an error).
+**重要**： `gmake`を使用します（GNU以外の` make`はエラーで終了します）。
 
-With wallet:
+ウォレット付き：
 ```
 ./autogen.sh
 ./configure CPPFLAGS="-I/usr/pkg/include" LDFLAGS="-L/usr/pkg/lib" BOOST_CPPFLAGS="-I/usr/pkg/include" BOOST_LDFLAGS="-L/usr/pkg/lib"
 gmake
 ```
 
-Without wallet:
+ウォレットなし：
 ```
 ./autogen.sh
 ./configure --disable-wallet CPPFLAGS="-I/usr/pkg/include" LDFLAGS="-L/usr/pkg/lib" BOOST_CPPFLAGS="-I/usr/pkg/include" BOOST_LDFLAGS="-L/usr/pkg/lib"

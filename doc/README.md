@@ -1,41 +1,40 @@
 Monacoin Core
 =============
 
-Setup
+セットアップ
 ---------------------
-Monacoin Core is the original Monacoin client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Monacoin transactions (which is currently more than 7 GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
+モナコインコアは元のモナコインクライアントであり、ネットワークのバックボーンを構築します。 デフォルトでは、Monacoinトランザクションの全履歴（現在7 GB以上）をダウンロードして保存します。 コンピューターとネットワーク接続の速度に応じて、同期プロセスには数時間から1日以上かかることがあります。
 
-To download Monacoin Core, visit [monacoin.org](https://monacoin.org).
+Monacoin Coreをダウンロードするには、[monacoin.org](https://monacoin.org)にアクセスしてください。
 
 Running
 ---------------------
-The following are some helpful notes on how to run Monacoin Core on your native platform.
+以下は、ネイティブプラットフォームでMonacoin Coreを実行する方法に関する役立つ注意事項です。
 
 ### Unix
 
-Unpack the files into a directory and run:
+ファイルをディレクトリに解凍して実行します：
 
 - `bin/monacoin-qt` (GUI) or
 - `bin/monacoind` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run monacoin-qt.exe.
+ファイルをディレクトリに展開し、monacoin-qt.exeを実行します。
 
 ### macOS
 
-Drag Monacoin Core to your applications folder, and then run Monacoin Core.
+Monacoin Coreをアプリケーションフォルダーにドラッグし、Monacoin Coreを実行します。
 
-### Need Help?
+### 助けが必要？
 
-* See the documentation at the [Monacoin Wiki](https://monacoin.info/)
-for help and more information.
-* Ask for help on [#monacoin](http://webchat.freenode.net?channels=monacoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=monacoin).
-* Ask for help on the [MonacoinTalk](https://monacointalk.io/) forums.
+* ヘルプと詳細については、[Monacoin Wiki](https://monacoin.info/)のドキュメントを参照してください。
+* Freenodeの[#monacoin](http://webchat.freenode.net?channels=monacoin)で助けを求めてください。 IRCクライアントがない場合は、[webchat here](http://webchat.freenode.net?channels=monacoin)を使用してください。
+* [MonacoinTalk](https://monacointalk.io/)フォーラムで助けを求めてください。
 
 Building
 ---------------------
-The following are developer notes on how to build Monacoin Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+以下は、ネイティブプラットフォームでMonacoin Coreをビルドする方法に関する開発者向けのメモです。 完全なガイドではありませんが、必要なライブラリ、コンパイルフラグなどに関するメモが含まれています。
 
 - [Dependencies](dependencies.md)
 - [macOS Build Notes](build-osx.md)
